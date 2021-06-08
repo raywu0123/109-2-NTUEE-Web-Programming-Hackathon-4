@@ -1,0 +1,22 @@
+{
+  "people": [
+    {
+      "ssn": "A123456789",
+      "name": "吳祥叡",
+      "severity": 0,
+      "location": {
+        "name": "家裡",
+        "description": "新竹市"
+      }
+    },
+    {
+      "ssn": "A1313113",
+      "name": "AAA",
+      "severity": 2,
+      "location": {
+        "name": "HOME",
+        "description": "新北市永和區"
+      }
+    }
+  ]
+}

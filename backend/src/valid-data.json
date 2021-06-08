@@ -1,0 +1,13 @@
+{
+    "people": [
+        {
+            "ssn": "A123456789",
+            "name": "吳祥叡",
+            "severity": 0,
+            "location": {
+                "name": "家裡",
+                "description": "新竹市"
+            }
+        }
+    ]
+}
