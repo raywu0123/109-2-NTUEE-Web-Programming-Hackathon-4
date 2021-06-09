@@ -22,22 +22,30 @@ function createProxy(data, name, store, value, isSet) {
         };
     }
     if (
-        typeof(data[name]) === 'null' 
+        data[name] === 'null' 
         || typeof(data[name]) === 'undefined'
         || typeof(data[name]) === 'boolean'
         || typeof(data[name]) === 'number' 
         || typeof(data[name]) === 'string'
     ) return data[name];
-    return new Proxy(data[name], {
-        get(t, n) {
-            // console.log('CREATE_PROXY_GET', t, n, data, name)
-            return createProxy(data[name], n, store);
-        },
-        set(t, n, v) {
-            // console.log('CREATE_PROXY_SET', t, n, data, name)
-            return createProxy(data[name], n, store, v, true)
-        }
-    })
+    try {
+        const proxy = new Proxy(data[name], {
+            get(t, n) {
+                // console.log('CREATE_PROXY_GET', t, n, data, name)
+                return createProxy(data[name], n, store);
+            },
+            set(t, n, v) {
+                // console.log('CREATE_PROXY_SET', t, n, data, name)
+                return createProxy(data[name], n, store, v, true)
+            }
+        });
+        return proxy;
+    } catch (error) {
+        console.log(error);
+        console.log(data, name, data[name], typeof(data[name]))
+        return data[name];
+    }
+
 }
 
 const db = new Proxy({}, {

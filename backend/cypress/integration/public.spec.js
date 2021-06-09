@@ -48,6 +48,7 @@ query statsCount {
         severity: 1,
         locationKeywords: [
             "新竹市",
+            "新竹縣",
             "臺北市",
             "新北市",
         ],
@@ -59,6 +60,7 @@ query statsCount {
     statsCount(
         locationKeywords: [
             "新竹市",
+            "新竹縣",
             "臺北市",
             "新北市",
         ],
@@ -69,15 +71,53 @@ query statsCount {
 const mutation = `
 mutation insertPeople {
   insertPeople(
-    data: [{
-        ssn: "A1313113",
-        name: "AAA",
-        severity: 2,
-        location: {
-            name: "HOME",
-            description: "新北市永和區",
+    data: [
+        {
+            ssn: "A177777777",
+            name: "張小弟",
+            severity: 0,
+            location: {
+                name: "臺灣大學",
+                description: "10617臺北市大安區羅斯福路四段1號"
+            }
         },
-    }]
+        {
+            ssn: "A199999999",
+            name: "黃小弟",
+            severity: 2,
+            location: {
+                name: "鳳山車站",
+                description: "830高雄市鳳山區曹公路68號"
+            }
+        },
+        {
+            ssn: "O100000003",
+            name: "陳伯伯",
+            severity: 2,
+            location: {
+                name: "龍山寺站",
+                description: "108臺北市萬華區"
+            }
+        },
+        {
+            ssn: "O100000004",
+            name: "王伯伯",
+            severity: 2,
+            location: {
+                name: "龍山寺站",
+                description: "108臺北市萬華區"
+            }
+        },
+        {
+            ssn: "O100000005",
+            name: "李伯伯",
+            severity: 2,
+            location: {
+                name: "龍山寺站",
+                description: "108臺北市萬華區"
+            }
+        }
+    ]
   )
 }
 `;
@@ -105,7 +145,7 @@ describe('Hackathon 4 Public Test', () => {
         postToBackend(query)
         .then(res => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([0, 0, 0]);
+            expect(result.data.statsCount).to.deep.eq([1, 1, 2, 1]);
         })
     })
     it('2-3 query with no severity have correct result ()', () => {
@@ -113,7 +153,7 @@ describe('Hackathon 4 Public Test', () => {
         postToBackend(queryNoSeverity)
         .then(res => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([1, 0, 0]);
+            expect(result.data.statsCount).to.deep.eq([1, 2, 2, 1]);
         })
     })
     it('2-4 query should return null when db fails ()', () => {
@@ -147,7 +187,7 @@ describe('Hackathon 4 Public Test', () => {
         .then(() => postToBackend(query))
         .then((res) => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([0, 0, 1]);
+            expect(result.data.statsCount).to.deep.eq([1, 1, 3, 1]);
         })
     })
     it('3-4 mutation and query return updated result, duplicate ssn ()', () => {
@@ -157,7 +197,7 @@ describe('Hackathon 4 Public Test', () => {
         .then(() => postToBackend(query))
         .then((res) => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([0, 0, 1]);
+            expect(result.data.statsCount).to.deep.eq([1, 1, 3, 1]);
         })
     })
     it('3-5 mutation should return false when db fails ()', () => {
@@ -172,8 +212,8 @@ describe('Hackathon 4 Public Test', () => {
         useValidData();
         cy.visit(FRONTEND);
         const ansCounts = [
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
+            0, 2, 1, 0, 1,
+            1, 0, 0, 0, 0,
             0, 0, 0, 0, 0,
             0, 0, 0, 0, 0,
             0, 0,
@@ -187,7 +227,7 @@ describe('Hackathon 4 Public Test', () => {
         cy.visit(FRONTEND + '/upload');
         cy.get('input[type="file"]').attachFile('people.csv');
         const ansCounts = [
-            0, 1, 0, 
+            1, 3, 8, 2
         ];
         cy.wait(100);
         postToBackend(query)
@@ -204,9 +244,9 @@ describe('Hackathon 4 Public Test', () => {
         postToBackend(mutation);
         cy.wait(100);
         const ansCounts = [
-            0, 0, 1, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
+            0, 3, 1, 0, 1,
+            1, 0, 0, 0, 0,
+            0, 0, 0, 0, 1,
             0, 0, 0, 0, 0,
             0, 0,
         ];
