@@ -1,52 +1,16 @@
-import { useQuery } from '@apollo/client';
-import { useEffect } from 'react';
-
-import constants from '../constants';
-import { STATS_COUNT_QUERY, PEOPLE_SUBSCRIPTION } from '../graphql';
+import constants from '../constants';  
+// Look at this file and see how the watchList is strucutred
 
 
-export default function WatchList(props) {
+export default function WatchList() {
 
-    const {data: counts, subscribeToMore} = useQuery(
-        STATS_COUNT_QUERY,
-        {
-            variables: {locationKeywords: constants.watchList, severity: 1}
-        }
-    );
+    // TODO
+    // query countStats
+    // save the result in a counts variable
+    const counts = null;
 
-    useEffect(() => {
-        try {
-            subscribeToMore({
-                document: PEOPLE_SUBSCRIPTION,
-                updateQuery: (prev, { subscriptionData }) => {
-                    const prevCounts = [...prev.statsCount];
-                    const { inserted, deleted } = subscriptionData.data.people;
-                    inserted.forEach(person => {
-                        if (person.severity === 0) return;
-                        constants.watchList.forEach((keyword, idx) => {
-                            if (person.location.description.includes(keyword)) {
-                                prevCounts[idx] += 1;
-                            }
-                        })
-                    })
-                    deleted.forEach(person => {
-                        if (person.severity === 0) return;
-                        constants.watchList.forEach((keyword, idx) => {
-                            if (person.location.description.includes(keyword)) {
-                                prevCounts[idx] -= 1;
-                            }
-                        })
-                    })
-
-                    return {
-                        statsCount: prevCounts,
-                    }
-                },
-            })
-        } catch(e) {
-            console.error(e);
-        }
-    }, [subscribeToMore])
+    // TODO
+    // use subscription
     
     return (
         <table>

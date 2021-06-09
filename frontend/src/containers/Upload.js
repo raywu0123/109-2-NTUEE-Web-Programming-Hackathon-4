@@ -1,20 +1,16 @@
-import { useMutation } from '@apollo/react-hooks';
-
 import Uploader from '../components/Uploader';
-import {
-    INSERT_PEOPLE_MUTATION,
-} from '../graphql';
 
 import "./Upload.css";
 
 
 export default function Upload() {
 
-    const [insertPerson] = useMutation(INSERT_PEOPLE_MUTATION);
+    // TODO get the mutation function
+    // pass it to the Uploader component
 
     return <div id="Upload">
         <div id="PeopleUploader">
-            <Uploader tag="People" mutation={insertPerson}/>
+            <Uploader tag="People" mutation={() => {}}/>
         </div>
     </div>;
 }

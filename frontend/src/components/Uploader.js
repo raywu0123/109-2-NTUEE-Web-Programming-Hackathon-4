@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import papaparse from 'papaparse';
 
 import "./Uploader.css"
@@ -40,6 +40,8 @@ export default function Uploader(props) {
                     results.data = results.data.filter((person) => person.ssn);
                     const tidyData = tidyCSV(results.data); 
                     setRawData(results.data);
+
+                    // onSubmit is called here, console.log(tidyData) to see how it's structured
                     onSubmitData(tidyData);
                 }
             });
@@ -49,10 +51,9 @@ export default function Uploader(props) {
     }
 
     const { mutation } = props;
-    const onSubmitData = useCallback(async (tidyData) => {
-        await mutation({variables: {data: tidyData}});
-    }, [mutation]);
-
+    // TODO 
+    // write an onSubmitData that calls the mutation function 
+    const onSubmitData = () => {}
 
     const headers = rawData.length > 0 ? Object.keys(rawData[0]) : [];
     const tableData = rawData.map((record, idx) => 
