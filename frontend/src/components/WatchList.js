@@ -12,6 +12,7 @@ export default function WatchList() {
     // TODO
     // use subscription
     
+    // DO NOT MODIFY THIS LINE BELOW
     return (
         <table>
         <tbody>
@@ -24,6 +25,7 @@ export default function WatchList() {
                     (keyword, idx) => 
                     <tr key={keyword}>
                         <td>{keyword}</td>
+                        {/* You might need to see this */}
                         <td id={`count-${idx}`}>{!counts || ! counts.statsCount || counts.statsCount[idx]}</td>
                     </tr>
                 )

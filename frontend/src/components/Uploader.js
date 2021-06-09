@@ -49,12 +49,14 @@ export default function Uploader(props) {
             console.error(err);
         }
     }
+    // DO NOT MODIFY THIS LINE ABOVE
 
     const { mutation } = props;
     // TODO 
     // write an onSubmitData that calls the mutation function 
     const onSubmitData = () => {}
 
+    // DO NOT MODIFY THIS LINE BELOW
     const headers = rawData.length > 0 ? Object.keys(rawData[0]) : [];
     const tableData = rawData.map((record, idx) => 
         <tr key={idx}>
