@@ -22,7 +22,7 @@ function createProxy(data, name, store, value, isSet) {
         };
     }
     if (
-        data[name] === 'null' 
+        data[name] === null
         || typeof(data[name]) === 'undefined'
         || typeof(data[name]) === 'boolean'
         || typeof(data[name]) === 'number' 
