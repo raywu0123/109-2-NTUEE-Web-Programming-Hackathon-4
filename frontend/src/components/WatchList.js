@@ -12,7 +12,7 @@ export default function WatchList() {
     // TODO
     // use subscription
     
-    // DO NOT MODIFY THIS LINE BELOW
+    // DO NOT MODIFY BELOW THIS LINE
     return (
         <table>
         <tbody>
