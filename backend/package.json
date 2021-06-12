@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon src/index.js --ext js,graphql --exec babel-node --ignore src/*.json",
-    "test": "npx cypress run --browser firefox --headless --spec cypress/integration/public.spec.js"
+    "test": "npx cypress run --browser firefox --headless --spec cypress/integration/public.spec.js",
+    "pre-test": "npx cypress run --browser firefox --headless --spec cypress/integration/preparation.spec.js"
   },
   "keywords": [],
   "author": "",
