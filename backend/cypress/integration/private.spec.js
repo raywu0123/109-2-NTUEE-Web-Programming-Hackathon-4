@@ -4,28 +4,10 @@ const BACKEND = "localhost:5000";
 const FRONTEND = "localhost:3000";
 
 const watchList = [
-    "基隆市",
-    "臺北市",
-    "新北市",
-    "桃園市",
-    "新竹市",
-    "新竹縣",
-    "苗栗縣",
-    "臺中市",
-    "彰化縣",
-    "南投縣",
-    "雲林縣",
-    "嘉義市",
-    "嘉義縣",
-    "臺南市",
-    "高雄市",
-    "屏東縣",
-    "宜蘭縣",
-    "花蓮縣",
-    "臺東縣",
-    "澎湖縣",
-    "金門縣",
-    "連江縣",
+    'California',
+    'New York',
+    'New Mexico',
+    'Alabama',
 ];
 
 function postToBackend(query) {
@@ -47,10 +29,10 @@ query statsCount {
     statsCount(
         severity: 1,
         locationKeywords: [
-            "新竹市",
-            "新竹縣",
-            "臺北市",
-            "新北市",
+            "California",
+            "New York",
+            "New Mexico",
+            "Alabama",
         ],
     )
 }
@@ -59,10 +41,10 @@ const queryNoSeverity = `
 query statsCount {
     statsCount(
         locationKeywords: [
-            "新竹市",
-            "新竹縣",
-            "臺北市",
-            "新北市",
+            "California",
+            "New York",
+            "New Mexico",
+            "Alabama",
         ],
     )
 }
@@ -73,50 +55,41 @@ mutation insertPeople {
   insertPeople(
     data: [
         {
-            ssn: "A177777777",
-            name: "張小弟",
-            severity: 0,
+            ssn: "M888",
+            name: "Marshall Ericson",
+            severity: 2,
             location: {
-                name: "臺灣大學",
-                description: "10617臺北市大安區羅斯福路四段1號"
+                name: "Home",
+                description: "East Meadow, Long Island, New York"
+            }
+        },
+        {
+            ssn: "L222",
+            name: "Lily Aldrin",
+            severity: 2,
+            location: {
+                name: "Home",
+                description: "East Meadow, Long Island, New York"
             }
         },
         {
             ssn: "A199999999",
-            name: "黃小弟",
-            severity: 2,
+            name: "Prof. Dave",
+            severity: 0,
             location: {
-                name: "鳳山車站",
-                description: "830高雄市鳳山區曹公路68號"
+                name: "UC Berkeley",
+                description: "VPCR+QH Berkeley, California, United States"
             }
         },
         {
-            ssn: "O100000003",
-            name: "陳伯伯",
-            severity: 2,
+            ssn: "J777",
+            name: "Jenny Curran",
+            severity: 1,
             location: {
-                name: "龍山寺站",
-                description: "108臺北市萬華區"
+                name: "University of Alabama",
+                description: "6F63+8G Tuscaloosa, Alabama, United States"
             }
         },
-        {
-            ssn: "O100000004",
-            name: "王伯伯",
-            severity: 2,
-            location: {
-                name: "龍山寺站",
-                description: "108臺北市萬華區"
-            }
-        },
-        {
-            ssn: "O100000005",
-            name: "李伯伯",
-            severity: 2,
-            location: {
-                name: "龍山寺站",
-                description: "108臺北市萬華區"
-            }
-        }
     ]
   )
 }
@@ -145,7 +118,7 @@ describe('Hackathon 4 Public Test', () => {
         postToBackend(query)
         .then(res => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([1, 1, 2, 1]);
+            expect(result.data.statsCount).to.deep.eq([1, 3, 3, 0]);
         })
     })
     it('2-3 query with no severity have correct result (8%)', () => {
@@ -153,7 +126,7 @@ describe('Hackathon 4 Public Test', () => {
         postToBackend(queryNoSeverity)
         .then(res => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([1, 2, 2, 1]);
+            expect(result.data.statsCount).to.deep.eq([1, 6, 3, 1]);
         })
     })
     it('2-4 query should return null when db fails (3%)', () => {
@@ -187,7 +160,7 @@ describe('Hackathon 4 Public Test', () => {
         .then(() => postToBackend(query))
         .then((res) => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([1, 1, 3, 1]);
+            expect(result.data.statsCount).to.deep.eq([0, 5, 3, 1]);
         })
     })
     it('3-4 mutation and query return updated result, duplicate ssn (8%)', () => {
@@ -197,7 +170,7 @@ describe('Hackathon 4 Public Test', () => {
         .then(() => postToBackend(query))
         .then((res) => {
             const result = res.body;
-            expect(result.data.statsCount).to.deep.eq([1, 1, 3, 1]);
+            expect(result.data.statsCount).to.deep.eq([0, 5, 3, 1]);
         })
     })
     it('3-5 mutation should return false when db fails (2%)', () => {
@@ -211,13 +184,7 @@ describe('Hackathon 4 Public Test', () => {
     it('4-1 stats page renders correctly (20%)', () => {
         useValidData();
         cy.visit(FRONTEND);
-        const ansCounts = [
-            0, 2, 1, 0, 1,
-            1, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0,
-            0, 0,
-        ];
+        const ansCounts = [1, 3, 3, 0];
         watchList.forEach((keyword, idx) => {
             cy.get(`#count-${idx}`).should('contain', ansCounts[idx]);
         });
@@ -226,9 +193,7 @@ describe('Hackathon 4 Public Test', () => {
         useValidData();
         cy.visit(FRONTEND + '/upload');
         cy.get('input[type="file"]').attachFile('people.csv');
-        const ansCounts = [
-            1, 3, 8, 2
-        ];
+        const ansCounts = [5, 5, 4, 1];
         cy.wait(100);
         postToBackend(query)
         .then(res => {
@@ -243,13 +208,7 @@ describe('Hackathon 4 Public Test', () => {
 
         postToBackend(mutation);
         cy.wait(100);
-        const ansCounts = [
-            0, 3, 1, 0, 1,
-            1, 0, 0, 0, 0,
-            0, 0, 0, 0, 1,
-            0, 0, 0, 0, 0,
-            0, 0,
-        ];
+        const ansCounts = [0, 5, 3, 1];
         watchList.forEach((keyword, idx) => {
             cy.get(`#count-${idx}`).should('contain', ansCounts[idx]);
         });
