@@ -131,7 +131,7 @@ function useValidData() {
 
 
 describe('Hackathon 4 Public Test', () => {
-    it('2-1 query response have correct properties ()', () => {
+    it('2-1 query response have correct properties (1%)', () => {
         useValidData();
         postToBackend(query)
         .then(res => {
@@ -140,7 +140,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data).to.have.property("statsCount");
         })
     })
-    it('2-2 query with severity have correct result ()', () => {
+    it('2-2 query with severity have correct result (8%)', () => {
         useValidData();
         postToBackend(query)
         .then(res => {
@@ -148,7 +148,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.statsCount).to.deep.eq([1, 1, 2, 1]);
         })
     })
-    it('2-3 query with no severity have correct result ()', () => {
+    it('2-3 query with no severity have correct result (8%)', () => {
         useValidData();
         postToBackend(queryNoSeverity)
         .then(res => {
@@ -156,7 +156,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.statsCount).to.deep.eq([1, 2, 2, 1]);
         })
     })
-    it('2-4 query should return null when db fails ()', () => {
+    it('2-4 query should return null when db fails (3%)', () => {
         useInvalidData();
         postToBackend(query)
         .then(res => {
@@ -164,7 +164,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.statsCount).to.be.null;
         })
     })
-    it('3-1 mutation response have correct properties ()', () => {
+    it('3-1 mutation response have correct properties (1%)', () => {
         useValidData();
         postToBackend(mutation)
         .then(res => {
@@ -173,7 +173,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data).to.have.property("insertPeople");
         })
     })
-    it('3-2 mutation response have correct result ()', () => {
+    it('3-2 mutation response have correct result (1%)', () => {
         useValidData();
         postToBackend(mutation)
         .then(res => {
@@ -181,7 +181,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.insertPeople).to.be.true;
         })
     })
-    it('3-3 mutation and query return updated result, new ssn ()', () => {
+    it('3-3 mutation and query return updated result, new ssn (8%)', () => {
         useValidData();
         postToBackend(mutation)
         .then(() => postToBackend(query))
@@ -190,7 +190,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.statsCount).to.deep.eq([1, 1, 3, 1]);
         })
     })
-    it('3-4 mutation and query return updated result, duplicate ssn ()', () => {
+    it('3-4 mutation and query return updated result, duplicate ssn (8%)', () => {
         useValidData();
         postToBackend(mutation)
         .then(() => postToBackend(mutation))  // a second mutation
@@ -200,7 +200,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.statsCount).to.deep.eq([1, 1, 3, 1]);
         })
     })
-    it('3-5 mutation should return false when db fails ()', () => {
+    it('3-5 mutation should return false when db fails (2%)', () => {
         useInvalidData();
         postToBackend(mutation)
         .then((res) => {
@@ -208,7 +208,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.insertPeople).to.be.false;
         })
     })
-    it('4-1 stats page renders correctly ()', () => {
+    it('4-1 stats page renders correctly (20%)', () => {
         useValidData();
         cy.visit(FRONTEND);
         const ansCounts = [
@@ -222,7 +222,7 @@ describe('Hackathon 4 Public Test', () => {
             cy.get(`#count-${idx}`).should('contain', ansCounts[idx]);
         });
     })
-    it('5-1 upload page mutates data ()', () => {
+    it('5-1 upload page mutates data (20%)', () => {
         useValidData();
         cy.visit(FRONTEND + '/upload');
         cy.get('input[type="file"]').attachFile('people.csv');
@@ -236,7 +236,7 @@ describe('Hackathon 4 Public Test', () => {
             expect(result.data.statsCount).to.deep.eq(ansCounts);
         });
     })
-    it('6-1 subscription updates data ()', () => {
+    it('6-1 subscription updates data (20%)', () => {
         useValidData();
         cy.visit(FRONTEND);
         cy.wait(100);
