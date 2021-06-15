@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/index.js --ext js,graphql --exec babel-node --ignore src/*.json",
+    "server": "nodemon src/index.js --ext js,graphql --exec babel-node --ignore src/*.json",
     "test": "npx cypress run --browser firefox --headless --spec cypress/integration/public.spec.js"
   },
   "keywords": [],
