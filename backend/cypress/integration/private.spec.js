@@ -103,7 +103,7 @@ function useValidData() {
 }
 
 
-describe('Hackathon 4 Public Test', () => {
+describe('Hackathon 4 Private Test', () => {
     it('2-1 query response have correct properties (1%)', () => {
         useValidData();
         postToBackend(query)
